@@ -1,0 +1,31 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>Author: @Model["author"].GetName()</h2>
+    
+    <p>Books by this Author:</p>
+    <ul>
+        @foreach(var book in @Model["authorBooks"])
+            {
+             <li> @book.GetName()</li>
+            }
+    </ul>
+    <h4>Add more books for this Author:</h4>
+    <form action = "/authors/@Model["author"].GetId()/addBook" method = "post">
+        <input type = "text" name="authorId" value =@Model["author"].GetId() hidden>
+        <label for = "bookAdded">Choose students</label>
+        <select name = "bookAdded" type = "text">
+            @foreach(var book in @Model["allBooks"])
+            {
+                <option value="@book.GetId()"> @book.GetName() </option>
+            }
+        </select>
+        <button type = "submit"> Add Book </button>
+    </form>
+
+</div>

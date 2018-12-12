@@ -1,0 +1,15 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>All Authors</h2>
+    <ul>
+    @foreach (var author in @Model)
+    {
+            <a href = "/authors/@author.GetId()"><li>@author.GetName()</li></a>
+    }
+    </ul>
