@@ -120,32 +120,33 @@ namespace Library.Models
             }
         }
 
-        // public static List<Copy> GetCopies(int id)
-        // {
-        //     List<Copy> patronsCopies = new List<Copy>{};
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"SELECT copies.* FROM patrons
-        //         JOIN patrons_copies on (patrons.id = patrons_copies.patron_id)
-        //         JOIN copies ON (patrons_copies.copy_id = copies.id)
-        //         WHERE patrons.id = @PatronId;";
-        //     cmd.Parameters.AddWithValue("@PatronId", id);
-        //     MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-        //     while(rdr.Read())
-        //     {
-        //         int copyName = rdr.GetString(1);
-        //         int copyQty = rdr.GetInt32(2);
-        //         int copyId = rdr.GetInt32(0);
-        //         Copy newCopy = new Copy(copyName,copyQty, copyId);
-        //         patronsCopies.Add(newCopy);
-        //     }
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        //     return patronsCopies;
-        // }
+        public static List<Copy> GetCopies(int id)
+        {
+            List<Copy> patronsCopies = new List<Copy>{};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT copies.* FROM patrons
+                JOIN patrons_copies on (patrons.id = patrons_copies.patron_id)
+                JOIN copies ON (patrons_copies.copy_id = copies.id)
+                WHERE patrons.id = @PatronId;";
+            cmd.Parameters.AddWithValue("@PatronId", id);
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                string copyName = rdr.GetString(1);
+                string copyAuthor = rdr.GetString(2);
+                int copyQty = rdr.GetInt32(3);
+                int copyId = rdr.GetInt32(0);
+                Copy newCopy = new Copy(copyName,copyAuthor,copyQty, copyId);
+                patronsCopies.Add(newCopy);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return patronsCopies;
+        }
     }
 }

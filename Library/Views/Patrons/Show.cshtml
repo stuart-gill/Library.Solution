@@ -1,0 +1,30 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>Patron: @Model["patron"].GetName()</h2>
+    
+    <p>Books checked out by this Patron:</p>
+    <ul>
+        @foreach(var copy in @Model["patronCopies"])
+            {
+             <li> @copy.GetName()</li>
+            }
+    </ul>
+    <h4>Add more books for this Patron:</h4>
+    <form action = "/patrons/@Model["patron"].GetId()/addCopy" method = "post">
+        <input type = "text" name="patronId" value =@Model["patron"].GetId() hidden>
+        <label for = "copyAdded">Choose copy</label>
+        <select name = "copyAdded" type = "text">
+            @foreach(var copy in @Model["allCopies"])
+            {
+                <option value="@copy.GetId()"> @copy.GetName() </option>
+            }
+        </select>
+        <button type = "submit"> Add Copy </button>
+    </form>
+</div>

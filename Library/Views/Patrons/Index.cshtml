@@ -1,0 +1,15 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>All Patrons</h2>
+    <ul>
+    @foreach (var patron in @Model)
+    {
+            <a href = "/patrons/@patron.GetId()"><li>@patron.GetName()</li></a>
+    }
+    </ul>

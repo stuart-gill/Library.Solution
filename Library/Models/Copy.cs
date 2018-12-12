@@ -59,61 +59,67 @@ namespace Library.Models
                 conn.Dispose();
             }
         }
+
+
+        public static List<Copy> GetAll()
+        {
+            List<Copy> allCopies = new List<Copy> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM copies;";
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+            while (rdr.Read())
+            {
+                int CopyId = rdr.GetInt32(0);
+                string CopyName = rdr.GetString(1);
+                string CopyAuthor = rdr.GetString(2);
+                int CopyQuantity = rdr.GetInt32(3);
+                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyId, CopyQuantity);
+                allCopies.Add(newCopy);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allCopies;
+        }
+
+        public static Copy Find(int copyId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM copies WHERE id = (@copyId);";
+            MySqlParameter copy_id = new MySqlParameter();
+            copy_id.ParameterName = "@copyId";
+            copy_id.Value = copyId;
+            cmd.Parameters.Add(copy_id);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            string CopyName = "";
+            string CopyAuthor="";
+            int CopyQuantity = 0;
+            int CopyId = 0;
+            while (rdr.Read())
+            {
+                CopyId = rdr.GetInt32(0);
+                CopyName = rdr.GetString(1);
+                CopyAuthor = rdr.GetString(2);
+                CopyQuantity = rdr.GetInt32(3);
+            }
+            Copy foundCopy = new Copy(CopyName, CopyAuthor, CopyQuantity, CopyId);
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            Console.WriteLine(foundCopy.GetName());
+            return foundCopy;
+        }
     }
 }
-
-        // public static List<Author> GetAll()
-        // {
-        //     List<Author> allAuthors = new List<Author> { };
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"SELECT * FROM authors;";
-        //     var rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-        //     while (rdr.Read())
-        //     {
-        //         int AuthorId = rdr.GetInt32(0);
-        //         string AuthorName = rdr.GetString(1);
-        //         Author newAuthor = new Author(AuthorName, AuthorId);
-        //         allAuthors.Add(newAuthor);
-        //     }
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        //     return allAuthors;
-        // }
-
-        // public static Author Find(int authorId)
-        // {
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     var cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"SELECT * FROM authors WHERE id = (@authorId);";
-        //     MySqlParameter author_id = new MySqlParameter();
-        //     author_id.ParameterName = "@authorId";
-        //     author_id.Value = authorId;
-        //     cmd.Parameters.Add(author_id);
-        //     var rdr = cmd.ExecuteReader() as MySqlDataReader;
-        //     string AuthorName = "";
-        //     int AuthorId = 0;
-        //     while (rdr.Read())
-        //     {
-        //         AuthorId = rdr.GetInt32(0);
-        //         AuthorName = rdr.GetString(1);
-        //     }
-        //     Author foundAuthor = new Author(AuthorName, AuthorId);
-        //     conn.Close();
-        //     if (conn != null)
-        //     {
-        //         conn.Dispose();
-        //     }
-        //     Console.WriteLine(foundAuthor.GetName());
-        //     return foundAuthor;
-        // }
-
         // public void AddBook(Book newBook)
         // {
         //     MySqlConnection conn = DB.Connection();
