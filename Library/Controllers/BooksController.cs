@@ -23,14 +23,63 @@ namespace Library.Controllers
         }
 
 
-        [HttpPost("/books")]
-        public ActionResult Create(string bookName)
-        {
-            Book newBook = new Book(bookName);
-            newBook.Save();
+        // [HttpPost("/books")]
+        // public ActionResult Create(string bookName)
+        // {
+        //     Book newBook = new Book(bookName);
+        //     newBook.Save();
             
+        //     List<Book> allBooks = Book.GetAll();
+        //     return View("Index", allBooks);
+        // }
+
+        //create new book, author and title both
+        [HttpPost("/books")]
+        public ActionResult Create(string bookName, string bookAuthor)
+        {
+
+            //check for duplicates, add book title:
+            bool isSameName = false;
+            string tempName = "";
             List<Book> allBooks = Book.GetAll();
-            return View("Index", allBooks);
+            foreach(Book book in allBooks)
+            {
+                tempName = book.GetName();
+                if (tempName == bookName)
+                {
+                    isSameName = true; 
+                }
+            }
+            if (isSameName == false)
+            {
+                Book newBook = new Book(bookName);
+                newBook.Save();
+            
+            
+            //check for duplicates, add book author:
+            bool isSameAuthor = false;
+            string tempAuthor = "";
+            List<Author> allAuthors = Author.GetAll();
+            foreach(Author author in allAuthors)
+            {
+                tempAuthor = author.GetName();
+                if (tempAuthor == bookAuthor)
+                {
+                    isSameAuthor = true; 
+                }
+            }
+            if (isSameAuthor == false)
+            {
+                Author newAuthor = new Author(bookAuthor);
+                newAuthor.Save();
+                newBook.AddAuthor(newAuthor);
+            }
+            }
+            Copy newCopy = new Copy(bookName, bookAuthor, 2);
+            newCopy.Save();
+
+
+            return RedirectToAction("Index");
         }
 
         //show indidividual books 

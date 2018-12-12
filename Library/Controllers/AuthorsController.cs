@@ -26,8 +26,22 @@ namespace Library.Controllers
         [HttpPost("/authors")]
         public ActionResult Create(string authorName)
         {
-            Author newAuthor = new Author(authorName);
-            newAuthor.Save();
+            bool isSame = false;
+            string tempName = "";
+            List<Author> allAuthors = Author.GetAll();
+            foreach(Author author in allAuthors)
+            {
+                tempName = author.GetName();
+                if (tempName == authorName)
+                {
+                    isSame = true; 
+                }
+            }
+            if (isSame == false)
+            {
+                Author newAuthor = new Author(authorName);
+                newAuthor.Save();
+            }
             return RedirectToAction("Index");
         }
 
