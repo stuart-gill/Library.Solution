@@ -103,7 +103,7 @@ namespace Library.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO patrons_copies (patron_id, copy_id VALUES (@PatronId, @CopyId);";
+            cmd.CommandText = @"INSERT INTO patrons_copies (patron_id, copy_id) VALUES (@PatronId, @CopyId);";
             MySqlParameter patron_id = new MySqlParameter();
             patron_id.ParameterName = "@PatronId";
             patron_id.Value = _id;

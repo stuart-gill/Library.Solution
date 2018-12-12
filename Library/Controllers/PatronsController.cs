@@ -61,11 +61,11 @@ namespace Library.Controllers
 
         //add copy to patrons_copys join table
         [HttpPost("/patrons/{patronId}/addCopy")]
-        public ActionResult AddCopy(int patronId, int copyAdded)
+        public ActionResult AddCopy(int patronId, int copyId)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Patron selectedPatron = Patron.Find(patronId);
-            Copy copy = Copy.Find(copyAdded);
+            Copy copy = Copy.Find(copyId);
             selectedPatron.AddCopy(copy);
             List<Copy> patronCopies = Patron.GetCopies(patronId);
             List<Copy> allCopies = Copy.GetAll();

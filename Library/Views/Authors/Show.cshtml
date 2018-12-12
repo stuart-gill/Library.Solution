@@ -7,7 +7,7 @@
 
 <div class="container">
     <h2>Author: @Model["author"].GetName()</h2>
-    
+    <hr>
     <p>Books by this Author:</p>
     <ul>
         @foreach(var book in @Model["authorBooks"])
@@ -19,13 +19,13 @@
     <form action = "/authors/@Model["author"].GetId()/addBook" method = "post">
         <input type = "text" name="authorId" value =@Model["author"].GetId() hidden>
         <label for = "bookAdded">Choose students</label>
-        <select name = "bookAdded" type = "text">
+        <select name = "bookAdded" type = "text"><br>
             @foreach(var book in @Model["allBooks"])
             {
                 <option value="@book.GetId()"> @book.GetName() </option>
             }
         </select>
-        <button type = "submit"> Add Book </button>
+        <button type = "submit"> Add Book </button><br>
     </form>
-
+    <hr>
 </div>

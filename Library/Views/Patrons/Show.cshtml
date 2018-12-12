@@ -7,7 +7,7 @@
 
 <div class="container">
     <h2>Patron: @Model["patron"].GetName()</h2>
-    
+    <hr>
     <p>Books checked out by this Patron:</p>
     <ul>
         @foreach(var copy in @Model["patronCopies"])
@@ -18,13 +18,14 @@
     <h4>Add more books for this Patron:</h4>
     <form action = "/patrons/@Model["patron"].GetId()/addCopy" method = "post">
         <input type = "text" name="patronId" value =@Model["patron"].GetId() hidden>
-        <label for = "copyAdded">Choose copy</label>
-        <select name = "copyAdded" type = "text">
+        <label for = "copyId">Choose copy</label>
+        <select name = "copyId" type = "text"><br>
             @foreach(var copy in @Model["allCopies"])
             {
                 <option value="@copy.GetId()"> @copy.GetName() </option>
             }
         </select>
-        <button type = "submit"> Add Copy </button>
+        <button class="btn btn-sm btn-primary" type = "submit"> Add Copy </button><br>
     </form>
+    <hr>
 </div>

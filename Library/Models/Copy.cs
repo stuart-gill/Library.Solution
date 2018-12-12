@@ -76,7 +76,7 @@ namespace Library.Models
                 string CopyName = rdr.GetString(1);
                 string CopyAuthor = rdr.GetString(2);
                 int CopyQuantity = rdr.GetInt32(3);
-                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyId, CopyQuantity);
+                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyQuantity, CopyId);
                 allCopies.Add(newCopy);
             }
             conn.Close();
