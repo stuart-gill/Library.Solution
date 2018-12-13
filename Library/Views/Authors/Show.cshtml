@@ -12,13 +12,13 @@
     <ul>
         @foreach(var book in @Model["authorBooks"])
             {
-             <li> @book.GetName()</li>
+             <li><a href="/books/@book.GetId()"> @book.GetName()</a></li>
             }
     </ul>
     <h4>Add more books for this Author:</h4>
     <form action = "/authors/@Model["author"].GetId()/addBook" method = "post">
         <input type = "text" name="authorId" value =@Model["author"].GetId() hidden>
-        <label for = "bookAdded">Choose students</label>
+        <label for = "bookAdded">Choose Books</label>
         <select name = "bookAdded" type = "text"><br>
             @foreach(var book in @Model["allBooks"])
             {

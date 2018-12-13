@@ -9,10 +9,20 @@
     
     <h2>All Books</h2>
     <ul>
-    @foreach (var book in @Model)
+    @foreach (var book in @Model["allBooks"])
     {
             <a href = "/books/@book.GetId()"><li>@book.GetName()</li></a>
     }
+    </ul>
+
+     <ul>
+         <h1>Search Results</h1>
+    <h2><a href = "/books/@Model["book"].GetId()">@Model["book"].GetName()</a></h2>
+    @foreach (var author in @Model["searchedBookAuthors"])
+    {
+            <a href = "/authors/@author.GetId()"><li>@author.GetName()</li></a>
+    }
+    
     </ul>
       <form action = "/books/search/" method = "post">
       <label for ="searchTitle">Search Book by Title</label>

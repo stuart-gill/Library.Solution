@@ -114,5 +114,19 @@ namespace Library.Controllers
             return View("Show", model);
         }
 
+        [HttpPost("/books/search/")]
+        public ActionResult Search(string searchTitle)
+        {
+         Dictionary<string, object> model = new Dictionary<string, object>();
+
+         Book searchedBook = Book.GetBookByTitle(searchTitle);
+         int bookId = searchedBook.GetId();
+        List<Author> searchedBookAuthors = Book.GetAuthors(bookId);
+        List<Book> allBooks = Book.GetAll();
+        model.Add("searchedBookAuthors", searchedBookAuthors);
+        model.Add("allBooks", allBooks);
+        model.Add("book", searchedBook);
+        return View("SearchResults", model);
+        }
     }
 }

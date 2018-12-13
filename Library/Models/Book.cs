@@ -70,6 +70,35 @@ namespace Library.Models
             return allBooks;
         }
 
+
+        public static Book GetBookByTitle(string title)
+        {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM books WHERE name LIKE '" + title + "%';";
+        // MySqlParameter book_title = new MySqlParameter();
+        // book_title.ParameterName = "@BookName";
+        // book_title.Value = title;
+        // cmd.Parameters.Add(book_title);
+        MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+        int id = 0;
+        string searchTitle = "";
+        while(rdr.Read())
+            {
+                id = rdr.GetInt32(0);
+                searchTitle = rdr.GetString(1);
+            }
+        conn.Close();
+        if (conn != null)
+            {
+                conn.Dispose();
+            }
+        Book book = new Book(searchTitle, id);
+        return book;
+        }
+
+
         public static Book Find(int bookId)
         {
             MySqlConnection conn = DB.Connection();
@@ -97,6 +126,8 @@ namespace Library.Models
             Console.WriteLine(foundBook.GetName());
             return foundBook;
         }
+
+
 
         public void AddAuthor(Author newAuthor)
         {

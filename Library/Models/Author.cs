@@ -70,6 +70,33 @@ namespace Library.Models
             return allAuthors;
         }
 
+        // public static Author GetAuthorByName(string name)
+        // {
+        //     MySqlConnection conn = DB.Connection();
+        //     conn.Open();
+        //     MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+        //     cmd.CommandText = @"SELECT * FROM authors WHERE name = (@AuthorName);";
+        //     MySqlParameter author_name = new MySqlParameter();
+        //     author_name.ParameterName = "@AuthorName";
+        //     author_name.Value = name;
+        //     cmd.Parameters.Add(author_name);
+        //     MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+        //     int id = 0;
+        //     string searchTitle = "";
+        //     while(rdr.Read())
+        //         {
+        //             id = rdr.GetInt32(0);
+        //             searchTitle = rdr.GetString(1);
+        //         }
+        //     conn.Close();
+        //     if (conn != null)
+        //         {
+        //             conn.Dispose();
+        //         }
+        //     Author author = new Author(searchTitle, id);
+        //     return author;
+        // }
+
         public static Author Find(int authorId)
         {
             MySqlConnection conn = DB.Connection();

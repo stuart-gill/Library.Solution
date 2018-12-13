@@ -12,11 +12,14 @@
     <ul>
         @foreach(var copy in @Model["patronCopies"])
             {
+                @if(copy.GetCheckoutStatus()==true)
+                {
                 <form action = "/patrons/@Model["patron"].GetId()/returnCopy" method = "post">
                 <input type = "text" name="patronId" value =@Model["patron"].GetId() hidden>
                 <input type = "text" name="copyId" value =@copy.GetId() hidden>
              <li> @copy.GetName()</li>  <button class="btn btn-sm btn-info" type = "submit">Return Book</button>
              </form>
+                }
             }
     </ul>
     <h4>Add more books for this Patron:</h4>

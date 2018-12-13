@@ -12,7 +12,7 @@
     <ul>
         @foreach(var author in @Model["bookAuthors"])
             {
-             <li> @author.GetName()</li>
+             <li><a href="/authors/@author.GetId()"> @author.GetName()</a></li>
             }
     </ul>
     <h4>Add more authors for this Book:</h4>
