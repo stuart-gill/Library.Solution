@@ -36,7 +36,7 @@ namespace Library.Models
             return _author;
         }
 
-        public bool GetCheckedOut()
+        public bool GetCheckoutStatus()
         {
             return _checkedOut;
         }

@@ -22,7 +22,10 @@
         <select name = "copyId" type = "text"><br>
             @foreach(var copy in @Model["allCopies"])
             {
+                @if(copy.GetCheckoutStatus()==false)
+                {
                 <option value="@copy.GetId()"> @copy.GetName() </option>
+                }
             }
         </select>
         <button class="btn btn-sm btn-primary" type = "submit"> Add Copy </button><br>
