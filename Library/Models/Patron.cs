@@ -120,6 +120,26 @@ namespace Library.Models
             }
         }
 
+        public void RemoveCopy(Copy copyToDelete)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = 
+             @"DELETE FROM patrons_copies 
+             WHERE copy_id = (@CopyId);";
+            MySqlParameter copyId = new MySqlParameter();
+            copyId.ParameterName = "@CopyId";
+            copyId.Value = copyToDelete.GetId();
+            cmd.Parameters.Add(copyId);
+            cmd.ExecuteNonQuery();
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+
         public static List<Copy> GetCopies(int id)
         {
             List<Copy> patronsCopies = new List<Copy>{};
@@ -148,5 +168,33 @@ namespace Library.Models
             }
             return patronsCopies;
         }
+
+        public static List<Patron> GetPatronsByName(string patronSearch)
+        {
+            List<Patron> foundPatrons = new List<Patron>{};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM patrons WHERE name LIKE '%" + patronSearch + "%';";
+           
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int id = 0;
+            string searchName = "";
+            while(rdr.Read())
+                {
+                    id = rdr.GetInt32(0);
+                    searchName = rdr.GetString(1);
+                    Patron tempPatron = new Patron(searchName, id);
+                    foundPatrons.Add(tempPatron);
+                }
+            conn.Close();
+            if (conn != null)
+                {
+                    conn.Dispose();
+                }
+            return foundPatrons;
+        }
     }
+
+
 }

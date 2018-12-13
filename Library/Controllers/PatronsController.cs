@@ -87,12 +87,42 @@ namespace Library.Controllers
             //following line designed to remove checkout record from patrons-copies join table
             // selectedPatron.RemoveCopy(copy);
             copy.Edit(false);
+            selectedPatron.RemoveCopy(copy);
             List<Copy> patronCopies = Patron.GetCopies(patronId);
             List<Copy> allCopies = Copy.GetAll();
             model.Add("patronCopies", patronCopies);
             model.Add("allCopies", allCopies);
             model.Add("patron", selectedPatron);
             return View("Show", model);
+        }
+
+        [HttpGet("/patrons/search/")]
+        public ActionResult Search()
+        {
+            return View("Search");
+        }
+
+        //search patrons, retrieve patrons and list of copies of books they have checked out
+        [HttpPost("/patrons/search/")]
+        public ActionResult Search(string searchPatron)
+        {
+         List<Dictionary<string,object>> dictionaryList = new List<Dictionary<string,object>> {};
+         
+
+         List<Patron> searchedPatrons = Patron.GetPatronsByName(searchPatron);
+         
+         foreach(Patron patron in searchedPatrons)
+         {
+             Dictionary<string, object> model = new Dictionary<string, object>();
+             int patronId = patron.GetId();
+             List<Copy> searchedPatronCopies = Patron.GetCopies(patronId);
+             model.Add("searchedPatronCopies", searchedPatronCopies);
+             model.Add("searchedPatrons", searchedPatrons);
+             model.Add("patron", patron);
+             dictionaryList.Add(model);
+         }
+        
+        return View("SearchResult", dictionaryList);
         }
 
     }
