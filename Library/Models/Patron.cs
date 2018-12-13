@@ -136,9 +136,9 @@ namespace Library.Models
             {
                 string copyName = rdr.GetString(1);
                 string copyAuthor = rdr.GetString(2);
-                int copyQty = rdr.GetInt32(3);
+                bool copyCheckoutStatus = rdr.GetBoolean(3);
                 int copyId = rdr.GetInt32(0);
-                Copy newCopy = new Copy(copyName,copyAuthor,copyQty, copyId);
+                Copy newCopy = new Copy(copyName,copyAuthor,copyCheckoutStatus,copyId);
                 patronsCopies.Add(newCopy);
             }
             conn.Close();

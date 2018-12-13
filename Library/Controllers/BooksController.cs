@@ -75,7 +75,7 @@ namespace Library.Controllers
                 newBook.AddAuthor(newAuthor);
             }
             }
-            Copy newCopy = new Copy(bookName, bookAuthor, 2);
+            Copy newCopy = new Copy(bookName, bookAuthor);
             newCopy.Save();
 
 

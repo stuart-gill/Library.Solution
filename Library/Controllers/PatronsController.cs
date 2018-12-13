@@ -59,7 +59,7 @@ namespace Library.Controllers
             return View(model);
         }
 
-        //add copy to patrons_copys join table
+        //add copy to patrons_copies join table
         [HttpPost("/patrons/{patronId}/addCopy")]
         public ActionResult AddCopy(int patronId, int copyId)
         {
@@ -67,6 +67,7 @@ namespace Library.Controllers
             Patron selectedPatron = Patron.Find(patronId);
             Copy copy = Copy.Find(copyId);
             selectedPatron.AddCopy(copy);
+            copy.Edit(true);
             List<Copy> patronCopies = Patron.GetCopies(patronId);
             List<Copy> allCopies = Copy.GetAll();
             model.Add("patronCopies", patronCopies);

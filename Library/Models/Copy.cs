@@ -10,13 +10,13 @@ namespace Library.Models
         private int _id;
         private string _name;
         private string _author;
-        private int _quantity;
+        private bool _checkedOut;
 
-        public Copy(string name, string author, int quantity, int id=0)
+        public Copy(string name, string author, bool checkedOut=false, int id=0)
         {
             _name=name;
             _author=author;
-            _quantity=quantity;
+            _checkedOut=checkedOut;
             _id = id;
         }
 
@@ -36,9 +36,9 @@ namespace Library.Models
             return _author;
         }
 
-        public int GetQuantity()
+        public bool GetCheckedOut()
         {
-            return _quantity;
+            return _checkedOut;
         }
     
         public void Save()
@@ -46,10 +46,10 @@ namespace Library.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO copies (name, author, quantity) VALUES (@Name, @Author, @Quantity);";
+            cmd.CommandText = @"INSERT INTO copies (name, author, checked_out) VALUES (@Name, @Author, @CheckedOut);";
             cmd.Parameters.AddWithValue("@Name", this._name);
             cmd.Parameters.AddWithValue("@Author", this._author);
-            cmd.Parameters.AddWithValue("@Quantity", this._quantity);
+            cmd.Parameters.AddWithValue("@CheckedOut", this._checkedOut);
             cmd.ExecuteNonQuery();
             _id = (int)cmd.LastInsertedId;
             
@@ -58,6 +58,29 @@ namespace Library.Models
             {
                 conn.Dispose();
             }
+        }
+
+        public void Edit(bool newCheckoutStatus)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE copies SET checked_out = @newCheckoutStatus WHERE id = @searchId;";
+            MySqlParameter searchId = new MySqlParameter();
+            searchId.ParameterName = "@searchId";
+            searchId.Value = _id;
+            cmd.Parameters.Add(searchId);
+            MySqlParameter checkoutStatus = new MySqlParameter();
+            checkoutStatus.ParameterName = "@newCheckoutStatus";
+            checkoutStatus.Value = newCheckoutStatus;
+            cmd.Parameters.Add(checkoutStatus);
+            cmd.ExecuteNonQuery();
+            _checkedOut = newCheckoutStatus;
+            conn.Close();
+            if (conn != null)
+                {
+                    conn.Dispose();
+                }
         }
 
 
@@ -75,8 +98,8 @@ namespace Library.Models
                 int CopyId = rdr.GetInt32(0);
                 string CopyName = rdr.GetString(1);
                 string CopyAuthor = rdr.GetString(2);
-                int CopyQuantity = rdr.GetInt32(3);
-                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyQuantity, CopyId);
+                bool CopyCheckedOut = rdr.GetBoolean(3);
+                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyCheckedOut, CopyId);
                 allCopies.Add(newCopy);
             }
             conn.Close();
@@ -100,16 +123,16 @@ namespace Library.Models
             var rdr = cmd.ExecuteReader() as MySqlDataReader;
             string CopyName = "";
             string CopyAuthor="";
-            int CopyQuantity = 0;
+            bool CopyCheckedOut = false;
             int CopyId = 0;
             while (rdr.Read())
             {
                 CopyId = rdr.GetInt32(0);
                 CopyName = rdr.GetString(1);
                 CopyAuthor = rdr.GetString(2);
-                CopyQuantity = rdr.GetInt32(3);
+                CopyCheckedOut = rdr.GetBoolean(3);
             }
-            Copy foundCopy = new Copy(CopyName, CopyAuthor, CopyQuantity, CopyId);
+            Copy foundCopy = new Copy(CopyName, CopyAuthor, CopyCheckedOut, CopyId);
             conn.Close();
             if (conn != null)
             {
