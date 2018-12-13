@@ -1,5 +1,6 @@
 @using Library.Models;
 @using System.Collections.Generic;
+@using System.Linq;
 
 @{
   Layout = "_Layout";
@@ -15,6 +16,9 @@
              <li><a href="/authors/@author.GetId()"> @author.GetName()</a></li>
             }
     </ul>
+
+    <h3>Total copies of this book: @Model["bookCopies"].Count </h3>
+    <h3>Available copies of this book: </h3>
     <h4>Add more authors for this Book:</h4>
     <form action = "/books/@Model["book"].GetId()/addAuthor" method = "post">
         <input type = "text" name="bookId" value =@Model["book"].GetId() hidden>

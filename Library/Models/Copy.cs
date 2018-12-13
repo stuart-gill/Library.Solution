@@ -110,6 +110,40 @@ namespace Library.Models
             return allCopies;
         }
 
+        public static List<Copy> GetByAuthorTitle(string bookTitle, string authorName)
+        {
+            List<Copy> foundCopies = new List<Copy> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM copies WHERE (name, author) = (@bookTitle, @authorName);";
+            MySqlParameter book_title = new MySqlParameter();
+            book_title.ParameterName = "@bookTitle";
+            book_title.Value = bookTitle;
+            cmd.Parameters.Add(book_title);
+            MySqlParameter author_name = new MySqlParameter();
+            author_name.ParameterName = "@authorName";
+            author_name.Value = authorName;
+            cmd.Parameters.Add(author_name);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+            while (rdr.Read())
+            {
+                int CopyId = rdr.GetInt32(0);
+                string CopyName = rdr.GetString(1);
+                string CopyAuthor = rdr.GetString(2);
+                bool CopyCheckedOut = rdr.GetBoolean(3);
+                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyCheckedOut, CopyId);
+                foundCopies.Add(newCopy);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return foundCopies;
+        }
+
         public static Copy Find(int copyId)
         {
             MySqlConnection conn = DB.Connection();

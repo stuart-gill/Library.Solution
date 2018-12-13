@@ -82,14 +82,18 @@ namespace Library.Controllers
             return RedirectToAction("Index");
         }
 
-        //show indidividual books 
+        //show indidividual books and copies of this book
         [HttpGet("/books/{bookId}")]
         public ActionResult Show(int bookId)
         {
             Dictionary<string, object> model = new Dictionary<string, object>();
             Book selectedBook = Book.Find(bookId);
             List<Author> bookAuthors = Book.GetAuthors(bookId);
+            string bookAuthor = bookAuthors[0].GetName();
+            string bookName = selectedBook.GetName();
+            List<Copy> bookCopies = Copy.GetByAuthorTitle(bookName, bookAuthor);
             List<Author> allAuthors = Author.GetAll();
+            model.Add("bookCopies", bookCopies);
             model.Add("bookAuthors", bookAuthors);
             model.Add("allAuthors", allAuthors);
             model.Add("book", selectedBook);
