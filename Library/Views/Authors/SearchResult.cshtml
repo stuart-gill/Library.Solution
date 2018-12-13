@@ -1,0 +1,32 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    
+
+
+<h1>Search Results</h1>
+  
+  @foreach(var item in @Model)
+{  
+    <h2><a href = "/authors/@item["author"].GetId()">@item["author"].GetName()</a></h2>
+    @foreach (var book in @item["searchedAuthorBooks"])
+    {
+            <a href = "/books/@book.GetId()"><li>@book.GetName()</li></a>
+    }
+}
+
+
+    </ul>
+      <form action = "/authors/search/" method = "post">
+        <label for ="searchAuthor">Search Author by Name</label>
+                  <input type = "text" name="searchAuthor">
+                  <button type="submit" class= "btn btn-lg btn-primary">Search</button>
+        </form>
+      </div>
+
+  

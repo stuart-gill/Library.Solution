@@ -70,32 +70,31 @@ namespace Library.Models
             return allAuthors;
         }
 
-        // public static Author GetAuthorByName(string name)
-        // {
-        //     MySqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //     MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-        //     cmd.CommandText = @"SELECT * FROM authors WHERE name = (@AuthorName);";
-        //     MySqlParameter author_name = new MySqlParameter();
-        //     author_name.ParameterName = "@AuthorName";
-        //     author_name.Value = name;
-        //     cmd.Parameters.Add(author_name);
-        //     MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-        //     int id = 0;
-        //     string searchTitle = "";
-        //     while(rdr.Read())
-        //         {
-        //             id = rdr.GetInt32(0);
-        //             searchTitle = rdr.GetString(1);
-        //         }
-        //     conn.Close();
-        //     if (conn != null)
-        //         {
-        //             conn.Dispose();
-        //         }
-        //     Author author = new Author(searchTitle, id);
-        //     return author;
-        // }
+        public static List<Author> GetAuthorsByName(string authorSearch)
+        {
+            List<Author> foundAuthors = new List<Author>{};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM authors WHERE name LIKE '%" + authorSearch + "%';";
+           
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int id = 0;
+            string searchName = "";
+            while(rdr.Read())
+                {
+                    id = rdr.GetInt32(0);
+                    searchName = rdr.GetString(1);
+                    Author tempAuthor = new Author(searchName, id);
+                    foundAuthors.Add(tempAuthor);
+                }
+            conn.Close();
+            if (conn != null)
+                {
+                    conn.Dispose();
+                }
+            return foundAuthors;
+        }
 
         public static Author Find(int authorId)
         {

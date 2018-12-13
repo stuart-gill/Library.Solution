@@ -1,0 +1,14 @@
+@using Library.Models;
+@using System.Collections.Generic;
+
+@{
+  Layout = "_Layout";
+}
+<div class="container">
+   <form action = "/books/search/" method = "post">
+        <label for ="searchTitle">Search Book by Title</label>
+                  <input type = "text" name="searchTitle">
+                  <button type="submit" class= "btn btn-sm btn-primary">Search</button>
+        </form>
+
+        </div>

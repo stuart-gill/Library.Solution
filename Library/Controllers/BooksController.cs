@@ -114,6 +114,13 @@ namespace Library.Controllers
             return View("Show", model);
         }
 
+          [HttpGet("/books/search/")]
+          public ActionResult Search()
+          {
+              return View("Search");
+          }
+
+
         [HttpPost("/books/search/")]
         public ActionResult Search(string searchTitle)
         {
@@ -135,7 +142,7 @@ namespace Library.Controllers
         // List<Book> allBooks = Book.GetAll();
         // model.Add("allBooks", allBooks);
         
-        return View("SearchResults", dictionaryList);
+        return View("SearchResult", dictionaryList);
         }
     }
 }

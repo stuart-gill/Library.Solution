@@ -74,6 +74,32 @@ namespace Library.Controllers
             model.Add("author", selectedAuthor);
             return View("Show", model);
         }
+        [HttpGet("/authors/search/")]
+        public ActionResult Search()
+        {
+            return View("Search");
+        }
+
+        [HttpPost("/authors/search/")]
+        public ActionResult Search(string searchAuthor)
+        {
+         List<Dictionary<string,object>> dictionaryList = new List<Dictionary<string,object>> {};
+         
+
+         List<Author> searchedAuthors = Author.GetAuthorsByName(searchAuthor);
+         
+         foreach(Author author in searchedAuthors)
+         {
+             Dictionary<string, object> model = new Dictionary<string, object>();
+             int authorId = author.GetId();
+             List<Book> searchedAuthorBooks = Author.GetBooks(authorId);
+             model.Add("searchedAuthorBooks", searchedAuthorBooks);
+             model.Add("author", author);
+             dictionaryList.Add(model);
+         }
+        
+        return View("SearchResult", dictionaryList);
+        }
 
     }
 }
