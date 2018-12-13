@@ -40,6 +40,8 @@ namespace Library.Models
         {
             return _checkedOut;
         }
+
+        
     
         public void Save()
         {
@@ -109,6 +111,34 @@ namespace Library.Models
             }
             return allCopies;
         }
+
+        public static List<Copy> GetAvailable()
+        {
+            List<Copy> availableCopies = new List<Copy> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM copies WHERE checked_out = 0;";
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+            while (rdr.Read())
+            {
+                int CopyId = rdr.GetInt32(0);
+                string CopyName = rdr.GetString(1);
+                string CopyAuthor = rdr.GetString(2);
+                bool CopyCheckedOut = rdr.GetBoolean(3);
+                Copy newCopy = new Copy(CopyName, CopyAuthor, CopyCheckedOut, CopyId);
+                availableCopies.Add(newCopy);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return availableCopies;
+        }
+
+        
 
         public static List<Copy> GetByAuthorTitle(string bookTitle, string authorName)
         {

@@ -93,11 +93,19 @@ namespace Library.Controllers
             string bookName = selectedBook.GetName();
             List<Copy> bookCopies = Copy.GetByAuthorTitle(bookName, bookAuthor);
             List<Author> allAuthors = Author.GetAll();
+            List<Copy> availableCopies = new List<Copy> {};
+            foreach (Copy copy in bookCopies)
+            {
+                if (copy.GetCheckoutStatus() == false)
+                {
+                    availableCopies.Add(copy);
+                }
+            }
             model.Add("bookCopies", bookCopies);
             model.Add("bookAuthors", bookAuthors);
             model.Add("allAuthors", allAuthors);
             model.Add("book", selectedBook);
-
+            model.Add("availableCopies", availableCopies);
             return View("Show", model);
         }
 
