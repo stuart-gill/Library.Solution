@@ -76,5 +76,24 @@ namespace Library.Controllers
             return View("Show", model);
         }
 
+
+        //return copy to library database, sets checkout status to false
+        [HttpPost("/patrons/{patronId}/returnCopy")]
+        public ActionResult ReturnCopy(int patronId, int copyId)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Patron selectedPatron = Patron.Find(patronId);
+            Copy copy = Copy.Find(copyId);
+            //following line designed to remove checkout record from patrons-copies join table
+            // selectedPatron.RemoveCopy(copy);
+            copy.Edit(false);
+            List<Copy> patronCopies = Patron.GetCopies(patronId);
+            List<Copy> allCopies = Copy.GetAll();
+            model.Add("patronCopies", patronCopies);
+            model.Add("allCopies", allCopies);
+            model.Add("patron", selectedPatron);
+            return View("Show", model);
+        }
+
     }
 }
