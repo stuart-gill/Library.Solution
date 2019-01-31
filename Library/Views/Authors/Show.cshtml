@@ -8,14 +8,16 @@
 <div class="container">
     <h2>Author: @Model["author"].GetName()</h2>
     <hr>
-    <p>Books by this Author:</p>
+    <h4>Books by @Model["author"].GetName():</h4>
     <ul>
         @foreach(var book in @Model["authorBooks"])
             {
              <li><a href="/books/@book.GetId()"> @book.GetName()</a></li>
             }
     </ul>
-    <h4>Add more books for this Author:</h4>
+    <hr>
+    <h4>Add @Model["author"].GetName() as an additional author for an existing book:</h4>
+    <br>
     <form action = "/authors/@Model["author"].GetId()/addBook" method = "post">
         <input type = "text" name="authorId" value =@Model["author"].GetId() hidden>
         <label for = "bookAdded">Choose Books</label>

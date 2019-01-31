@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Patron: @Model["patron"].GetName()</h2>
     <hr>
-    <p>Books checked out by this Patron:</p>
+    <p>Books checked out by @Model["patron"].GetName():</p>
     <ul>
         @foreach(var copy in @Model["patronCopies"])
             {
@@ -35,7 +35,7 @@
                 }
             }
         </select>
-        <button class="btn btn-sm btn-primary" type = "submit"> Add Copy </button><br>
+        <button class="btn btn-sm btn-primary" type = "submit"> Check out this copy to @Model["patron"].GetName() </button><br>
     </form>
     <hr>
 </div>

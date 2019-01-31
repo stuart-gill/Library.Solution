@@ -45,6 +45,8 @@ This is an app for a library. The admin should be able to add a list of the auth
 5. Once this is completed, return to the terminal and run
 
 ```
+    $ cd library   [or make sure you are in the Library.Solution/library folder]
+
     $ dotnet restore
 
     $ dotnet run

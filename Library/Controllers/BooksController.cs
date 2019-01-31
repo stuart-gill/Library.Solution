@@ -38,7 +38,7 @@ namespace Library.Controllers
         public ActionResult Create(string bookName, string bookAuthor)
         {
 
-            //check for duplicates, add book title:
+            //check for book title duplicates, add book title:
             bool isSameName = false;
             string tempName = "";
             List<Book> allBooks = Book.GetAll();
@@ -56,7 +56,7 @@ namespace Library.Controllers
                 newBook.Save();
             
             
-            //check for duplicates, add book author:
+            //check for author duplicates, add book author:
             bool isSameAuthor = false;
             string tempAuthor = "";
             List<Author> allAuthors = Author.GetAll();
@@ -65,7 +65,8 @@ namespace Library.Controllers
                 tempAuthor = author.GetName();
                 if (tempAuthor == bookAuthor)
                 {
-                    isSameAuthor = true; 
+                    isSameAuthor = true;
+                    newBook.AddAuthor(author); 
                 }
             }
             if (isSameAuthor == false)
@@ -74,6 +75,7 @@ namespace Library.Controllers
                 newAuthor.Save();
                 newBook.AddAuthor(newAuthor);
             }
+          
             }
             Copy newCopy = new Copy(bookName, bookAuthor);
             newCopy.Save();
