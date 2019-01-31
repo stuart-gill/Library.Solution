@@ -7,6 +7,23 @@
 This is an app for a library. The admin should be able to add a list of the authors, and for each author, add books written by the author.
 
 ## Behavior-driven Development
+1. As a library admin, I want to be able to add a book to circulation. 
+2. Every book should have a title and at least one author. 
+3. I want to be able to add additional authors to any given book already in the system
+4. I want to be able to search for books by author
+5. I want to be able to search for books by title
+6. I want to be able to view all books
+7. I want to be able to view all authors
+8. If a book already exists in circulation, when I add another book with the same author and title, I want to note that this book now has one additional copy in circulation. 
+9. I want to be able to add a patron to the system
+10. I want to be able to check out a copy of any book to a patron, and have that checked out copy no longer available to be checked out 
+11. I want to be able to see a list of patrons
+12. I want to be able to search for patrons by name
+13. I want to be able to see which books a patron has checked out. 
+14. I want to be able to return a copy of a book to circulation when the patron has returned it
+15. For any given book, I want to see its author or authors, and be able to find all other books by this author or authors. 
+16. For any given author, I want to see a list of books by this author, and be able to click on any book and find out more information about this book, including additional authors
+17. I want copies of a book to be unique-- i.e., every copy of a book has its own unique ID, allowing its history to be tracked. 
 
 -
 
