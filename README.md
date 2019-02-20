@@ -1,6 +1,6 @@
-# Library - Stuart Gill and James Cho
+# Library Database Project
 
-##### Epicodus Independent Project C# Week 3 & 4 - 011/21/2018.
+
 
 ## Description
 
@@ -77,7 +77,7 @@ This is an app for a library. The admin should be able to add a list of the auth
 
 ## Support and contact details
 
-Please contact us on github for more information and/or feedback.
+Please contact me on github with any questions
 
 ## Technologies Used
 
@@ -90,4 +90,4 @@ Please contact us on github for more information and/or feedback.
 
 ### License: MIT.
 
-#### Copyright (c) 2018 Stuart Gill and James Cho
+#### Copyright (c) 2018 Stuart Gill
