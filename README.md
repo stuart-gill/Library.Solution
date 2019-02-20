@@ -1,6 +1,6 @@
 # Library Database Project
 
-
+## Epicodus C# and MySQL project for Dec 11 and 12 2018
 
 ## Description
 
@@ -90,4 +90,4 @@ Please contact me on github with any questions
 
 ### License: MIT.
 
-#### Copyright (c) 2018 Stuart Gill
+#### Copyright (c) 2018 Stuart Gill and James Cho
